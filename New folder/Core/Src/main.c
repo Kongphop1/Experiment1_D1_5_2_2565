@@ -95,6 +95,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
+	  /*
+	  //Experiment D1
 	  //Button
 	  static GPIO_PinState B1State[2] = { 0 };
 	  static uint32_t TimeDelay = 500;
@@ -118,14 +121,55 @@ int main(void)
 	  }
 	  B1State[1] = B1State[0];
 
-
-
 	  //LED
 	  static uint32_t timeStamp = 0;
 	  if (HAL_GetTick() - timeStamp >= TimeDelay){
 		  timeStamp = HAL_GetTick();
 		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	  }
+	  */
+
+	  //Experiment D3
+	  static uint32_t TimeDelay = 2000;
+	  static uint32_t timeStamp = 0;
+	  static GPIO_PinState B1State[2] = {0};
+	  B1State[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
+
+	  static enum {Beginnaja, Endnaja} STATE = Beginnaja;
+
+	  switch(STATE){
+	  	  case Beginnaja :
+	  		  if (HAL_GetTick() - timeStamp >= TimeDelay){
+	  			  timeStamp = HAL_GetTick();
+	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  }
+	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
+	  			  STATE = Endnaja;
+	  		  }
+	  		  break;
+	  	  case Endnaja :
+	  		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
+	  			  STATE = Beginnaja;
+	  		  }
+	  		  break;
+	  }
+	  B1State[1] = B1State[0];
+//	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
+//		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  }
+//	  B1State[1] = B1State[0];					// ทำการ update state save state ที่แล้วจากการวน loop
+//
+//	  if (HAL_GetTick() - timeStamp >= TimeDelay){
+//		  timeStamp = HAL_GetTick();
+//		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//	  }
+
+
+
+	  //Experiment D5
+
+
 
 
 
