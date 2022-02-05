@@ -103,13 +103,16 @@ int main(void)
 		  if(TimeDelay == 500){
 			  TimeDelay = 1000;
 		  }
-		  if(TimeDelay == 1000){
+		  else if(TimeDelay == 1000){
 			  TimeDelay = 2000;
 		  }
-	  	  if(TimeDelay == 2000){
+		  else if(TimeDelay == 2000){
 	  		  TimeDelay = 3000;
 	  	  }
-	  	  if(TimeDelay == 3000){
+		  else if(TimeDelay == 3000){
+	  		  TimeDelay = 500;
+	  	  }
+	  	  else{
 	  		  TimeDelay = 500;
 	  	  }
 	  }
