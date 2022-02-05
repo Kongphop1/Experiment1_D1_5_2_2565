@@ -103,9 +103,15 @@ int main(void)
 		  if(TimeDelay == 500){
 			  TimeDelay = 1000;
 		  }
-		  else{
-			  TimeDelay = 500;
+		  if(TimeDelay == 1000){
+			  TimeDelay = 2000;
 		  }
+	  	  if(TimeDelay == 2000){
+	  		  TimeDelay = 3000;
+	  	  }
+	  	  if(TimeDelay == 3000){
+	  		  TimeDelay = 500;
+	  	  }
 	  }
 	  B1State[1] = B1State[0];
 
