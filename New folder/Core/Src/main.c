@@ -169,7 +169,8 @@ int main(void)
 
 
 	  //Experiment D5
-	  static uint32_t timeStamp = 0;
+	  static uint32_t timeStamphalfsec = 0;
+	  static uint32_t timeStamponepointfivesec = 0;
 	  static GPIO_PinState B1State[2] = {0};
 	  B1State[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
 
@@ -177,28 +178,26 @@ int main(void)
 
 	  switch(STATE){
 	  	  case LEDclosed :
-	  		  if(HAL_GetTick()-timeStamp >= 1500) {
+	  		  if (HAL_GetTick() - timeStamphalfsec >= 500){
+	  			  timeStamphalfsec = HAL_GetTick();
 	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	  		  }
-	  		  else if(HAL_GetTick()-timeStamp >= 500) {
+	  		  if (HAL_GetTick() - timeStamponepointfivesec >= 1500){
+	  			  timeStamponepointfivesec = HAL_GetTick();
 	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  else {
-	  			  timeStamp = HAL_GetTick();
 	  		  }
 	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
 	  			  STATE = LEDopened;
 	  		  }
 	  		  break;
 	  	  case LEDopened :
-	  		  if(HAL_GetTick()-timeStamp >= 500) {
+	  		  if (HAL_GetTick() - timeStamphalfsec >= 1500){
+	  			  timeStamphalfsec = HAL_GetTick();
 	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 	  		  }
-	  		  else if(HAL_GetTick()-timeStamp >= 1500) {
+	  		  if (HAL_GetTick() - timeStamponepointfivesec >= 500){
+	  			  timeStamponepointfivesec = HAL_GetTick();
 	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  else {
-	  			  timeStamp = HAL_GetTick();
 	  		  }
 	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
 	  			  STATE = LEDclosed;
@@ -207,7 +206,9 @@ int main(void)
 	  }
 	  B1State[1] = B1State[0];
 
-	  //Challenge
+
+
+	  //Challenge use PWM to control brightness LED
 
 
 
