@@ -169,43 +169,39 @@ int main(void)
 
 
 	  //Experiment D5
-	  static uint32_t timeStamphalfsec = 0;
-	  static uint32_t timeStamponepointfivesec = 0;
-	  static GPIO_PinState B1State[2] = {0};
+	  static uint32_t timeDelay = 500;
+	  static int mode = 0;
+	  static GPIO_PinState B1State[2] = {0};                            // static will declare only one time
 	  B1State[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-
-	  static enum {LEDclosed, LEDopened} STATE = LEDclosed;
-
-	  switch(STATE){
-	  	  case LEDclosed :
-	  		  if (HAL_GetTick() - timeStamphalfsec >= 500){
-	  			  timeStamphalfsec = HAL_GetTick();
-	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  if (HAL_GetTick() - timeStamponepointfivesec >= 1500){
-	  			  timeStamponepointfivesec = HAL_GetTick();
-	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
-	  			  STATE = LEDopened;
-	  		  }
-	  		  break;
-	  	  case LEDopened :
-	  		  if (HAL_GetTick() - timeStamphalfsec >= 1500){
-	  			  timeStamphalfsec = HAL_GetTick();
-	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  if (HAL_GetTick() - timeStamponepointfivesec >= 500){
-	  			  timeStamponepointfivesec = HAL_GetTick();
-	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  		  }
-	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
-	  			  STATE = LEDclosed;
-	  		  }
-	  		  break;
+	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET)    // falling edge detect
+	  {
+		  if(mode == 0){mode = 1;}
+	      else {mode = 0;}
 	  }
 	  B1State[1] = B1State[0];
-
+	  static uint32_t timeStamp = 0;
+	  if(HAL_GetTick() - timeStamp >= timeDelay)
+	  {
+		  timeStamp = HAL_GetTick();
+	      if (mode == 0){
+	    	  if (timeDelay == 500){
+	    		  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	              timeDelay = 1500;
+	          } else {
+	              HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	              timeDelay = 500;
+	          	  }
+	            }
+	            else if (mode == 1){
+	                if (timeDelay == 500){
+	                    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+	                    timeDelay = 1500;
+	                } else {
+	                    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+	                    timeDelay = 500;
+	                }
+	            }
+	        }
 
 
 	  //Challenge use PWM to control brightness LED
