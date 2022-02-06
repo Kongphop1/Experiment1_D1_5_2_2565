@@ -129,6 +129,7 @@ int main(void)
 	  }
 	  */
 
+	  /*
 	  //Experiment D3
 	  static uint32_t TimeDelay = 2000;
 	  static uint32_t timeStamp = 0;
@@ -154,7 +155,7 @@ int main(void)
 	  		  }
 	  		  break;
 	  }
-	  B1State[1] = B1State[0];
+	  B1State[1] = B1State[0]; // ทำการ update state save state ที่แล้วจากการวน loop
 //	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
 //		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 //	  }
@@ -164,12 +165,49 @@ int main(void)
 //		  timeStamp = HAL_GetTick();
 //		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 //	  }
-
+		*/
 
 
 	  //Experiment D5
+	  static uint32_t timeStamp = 0;
+	  static GPIO_PinState B1State[2] = {0};
+	  B1State[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
 
+	  static enum {LEDclosed, LEDopened} STATE = LEDclosed;
 
+	  switch(STATE){
+	  	  case LEDclosed :
+	  		  if(HAL_GetTick()-timeStamp >= 1500) {
+	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  }
+	  		  else if(HAL_GetTick()-timeStamp >= 500) {
+	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  }
+	  		  else {
+	  			  timeStamp = HAL_GetTick();
+	  		  }
+	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
+	  			  STATE = LEDopened;
+	  		  }
+	  		  break;
+	  	  case LEDopened :
+	  		  if(HAL_GetTick()-timeStamp >= 500) {
+	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  }
+	  		  else if(HAL_GetTick()-timeStamp >= 1500) {
+	  			  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+	  		  }
+	  		  else {
+	  			  timeStamp = HAL_GetTick();
+	  		  }
+	  		  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
+	  			  STATE = LEDclosed;
+	  		  }
+	  		  break;
+	  }
+	  B1State[1] = B1State[0];
+
+	  //Challenge
 
 
 
