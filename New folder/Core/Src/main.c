@@ -155,11 +155,11 @@ int main(void)
 	  		  }
 	  		  break;
 	  }
-	  B1State[1] = B1State[0]; // ทำการ update state save state ที่แล้วจากการวน loop
+	  B1State[1] = B1State[0]; // ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
 //	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
 //		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 //	  }
-//	  B1State[1] = B1State[0];					// ทำการ update state save state ที่แล้วจากการวน loop
+//	  B1State[1] = B1State[0];					// ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
 //
 //	  if (HAL_GetTick() - timeStamp >= TimeDelay){
 //		  timeStamp = HAL_GetTick();
