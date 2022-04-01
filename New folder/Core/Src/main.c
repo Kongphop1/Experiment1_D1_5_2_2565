@@ -155,11 +155,11 @@ int main(void)
 	  		  }
 	  		  break;
 	  }
-	  B1State[1] = B1State[0]; // ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
+	  B1State[1] = B1State[0]; // ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
 //	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET){
 //		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 //	  }
-//	  B1State[1] = B1State[0];					// ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
+//	  B1State[1] = B1State[0];					// ทำ�?าร update state save state ที�?�?ล�?ว�?า�?�?ารว�? loop
 //
 //	  if (HAL_GetTick() - timeStamp >= TimeDelay){
 //		  timeStamp = HAL_GetTick();
@@ -175,7 +175,9 @@ int main(void)
 	  B1State[0] = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
 	  if (B1State[1] == GPIO_PIN_SET && B1State[0] == GPIO_PIN_RESET)    // falling edge detect
 	  {
-		  if(mode == 0){mode = 1;}
+		  if(mode == 0){
+			  mode = 1;
+		  }
 	      else {mode = 0;}
 	  }
 	  B1State[1] = B1State[0];
